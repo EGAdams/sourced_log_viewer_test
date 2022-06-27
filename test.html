@@ -12,19 +12,20 @@
           "imports": {
             "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
             "jquery": "https://unpkg.com/jquery@3/dist/jquery.js",
-            "log-viewer": "https://unpkg.com/@egadams/log-viewer@0.0.0"
+            "log-viewer": "https://unpkg.com/@egadams/log-viewer@0.0.2/dist/index.js"
           }
         }
       </script>
     <div id="log_div">
-    <sourced-log-viewer  data_source_type="url"
-    data_source_location="https://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+    <sourced-log-viewer  
+        data_source_type="url"
+        data_source_location="https://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
     </sourced-log-viewer>
     </div>
     <script type="module">
         import { createApp } from 'vue';
         import * as jquery from 'jquery';
-        import * as SourcedLogViewer from 'log-viewer'; 
+        import { SourcedLogViewer } from 'log-viewer'; 
         createApp( SourcedLogViewer ).mount( '#log_div' );
     </script>
 </body>
