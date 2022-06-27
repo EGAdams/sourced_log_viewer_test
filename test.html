@@ -1,31 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>logViewer</title>
+    <style>
+        :host {
+            display: block;
+            border: solid 1px gray;
+            padding: 16px;
+            max-width: 800px;
+        }
+
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+        .active,
+        .accordion:hover {
+            background-color: #ccc;
+        }
+
+        .panel {
+            padding: 0 18px;
+            display: none;
+            background-color: white;
+            overflow: hidden;
+        }
+    </style>
 </head>
+
 <body>
     <script type="importmap">
         {
           "imports": {
-            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
-            "jquery": "https://unpkg.com/jquery@3/dist/jquery.js",
-            "log-viewer": "https://unpkg.com/@egadams/log-viewer@0.0.3/dist/index.js"
+            "vue":        "https://unpkg.com/vue@3/dist/vue.esm-browser.js",            // Vue.js
+            "log-viewer": "https://unpkg.com/@egadams/log-viewer@0.0.3/dist/index.js"   // log-viewer
           }
         }
       </script>
-    <div id="log_div">
-        <sourced-log-viewer
-            data_source_type= "url"
-            data_source_location = "http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
-        </sourced-log-viewer>
+
+    <button class="accordion" id="section_1">Log Vuer</button>
+    <div class="panel">
+        <div id="log_div">
+            <sourced-log-viewer 
+                data_source_type="url"
+                data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+            </sourced-log-viewer>
+        </div>
+    </div>
+
+    <button class="accordion">Section 2</button>
+    <div class="panel">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+
+    <button class="accordion">Section 3</button>
+    <div class="panel">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
     </div>
     <script type="module">
         import { createApp } from 'vue';
-        import { SourcedLogViewer } from 'log-viewer'; 
-        createApp({ components: { SourcedLogViewer }}).mount( '#log_div' );
+        import { SourcedLogViewer } from 'log-viewer';
+        createApp( {
+            components: { SourcedLogViewer },
+            mounted () {
+                setTimeout( () => {
+                    const acc = document.querySelectorAll( ".accordion" );
+                    let i;
+                    for ( i = 0; i < acc.length; i++ ) {
+                        acc[ i ].addEventListener( "click", ( evt ) => {
+                            console.log( evt );
+                            // this.classList.toggle( "active" );
+                            const panel = ( evt.target ).nextElementSibling;
+                            if ( panel.style.display === "block" ) {
+                                panel.style.display = "none";
+                            } else {
+                                panel.style.display = "block";
+                            }
+                        } );
+                    }
+                }, 500 );
+            }
+        } ).mount( '#log_div' );
+
     </script>
 </body>
+
 </html>
