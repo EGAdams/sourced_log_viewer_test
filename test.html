@@ -50,35 +50,38 @@
           }
         }
       </script>
-
-    <button class="accordion" id="section_1">Log Vuer</button>
-    <div class="panel">
-        <div id="log_div">
-            <sourced-log-viewer 
-                data_source_type="url"
-                data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
-            </sourced-log-viewer>
+    <div id="section_1">
+        <button class="accordion" id="button_1">Log Vuer</button>
+        <div class="panel">
+            <div id="log_div">
+                <sourced-log-viewer data_source_type="url"
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+                </sourced-log-viewer>
+            </div>
         </div>
-    </div>
 
-    <button class="accordion">Section 2</button>
-    <div class="panel">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
+        <button class="accordion">Section 2</button>
+        <div class="panel">
+            <div id="section_2">
+                <sourced-log-viewer data_source_type="url"
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+                </sourced-log-viewer>
+            </div>
+        </div>
 
-    <button class="accordion">Section 3</button>
-    <div class="panel">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
+        <button class="accordion">Section 3</button>
+        <div class="panel">
+            <div id="section_3">
+                <sourced-log-viewer data_source_type="url"
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+                </sourced-log-viewer>
+            </div>
+        </div>
     </div>
     <script type="module">
         import { createApp } from 'vue';
         import { SourcedLogViewer } from 'log-viewer';
-        createApp( {
+        const app = createApp( {
             components: { SourcedLogViewer },
             mounted () {
                 setTimeout( () => {
@@ -98,8 +101,9 @@
                     }
                 }, 500 );
             }
-        } ).mount( '#log_div' );
-
+        } );
+        app.mount( '#section_1' );
+        // app.mount( '#section_2')
     </script>
 </body>
 
