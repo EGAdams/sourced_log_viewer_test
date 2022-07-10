@@ -45,26 +45,32 @@
     <script type="importmap">
         {
           "imports": {
-            "vue":        "https://unpkg.com/vue@3/dist/vue.esm-browser.js",            // Vue.js
-            "log-viewer": "https://unpkg.com/@egadams/log-viewer@0.0.3/dist/index.js"   // log-viewer
+            "vue":         "https://unpkg.com/vue@3/dist/vue.esm-browser.js",                       // Vue.js
+            "log-viewer":  "https://unpkg.com/@egadams/log-viewer@0.0.10/dist/index.js",            // sourced-log-viewer
+            "monitor-led": "https://unpkg.com/@egadams/monitor-led@0.0.2/dist/monitor-led.esm.js"   // monitor-led
           }
         }
       </script>
     <div id="section_1">
-        <button class="accordion" id="button_1">Log Vuer</button>
+        <button class="accordion" id="MessageManager_1616_button">Log Vuer</button>
         <div class="panel">
             <div id="log_div">
-                <sourced-log-viewer data_source_type="url"
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+                <sourced-log-viewer 
+                    data_source_type="url"
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
+                    object_id="MessageManager_1616">
                 </sourced-log-viewer>
+                <monitor-led v-bind:monitor_led_data="monitor_led_data"></monitor-led>
             </div>
         </div>
 
         <button class="accordion">Section 2</button>
         <div class="panel">
             <div id="section_2">
-                <sourced-log-viewer data_source_type="url"
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+                <sourced-log-viewer 
+                    data_source_type="url"
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
+                    object_id="MessageManager_1616">
                 </sourced-log-viewer>
             </div>
         </div>
@@ -72,38 +78,42 @@
         <button class="accordion">Section 3</button>
         <div class="panel">
             <div id="section_3">
-                <sourced-log-viewer data_source_type="url"
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+                <sourced-log-viewer 
+                    data_source_type="url"
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
+                    object_id="MessageManager_1616">
                 </sourced-log-viewer>
+                
             </div>
         </div>
     </div>
     <script type="module">
-        import { createApp } from 'vue';
+        import { createApp, reactive } from 'vue';
         import { SourcedLogViewer } from 'log-viewer';
+        import MonitorLed from 'monitor-led';
+        import { ServerLedData } from 'monitor-led';
         const app = createApp( {
-            components: { SourcedLogViewer },
+            components: { SourcedLogViewer, MonitorLed },
+            setup () {
+                const monitor_led_data = reactive( new ServerLedData() );
+                return {
+                    monitor_led_data
+                }
+            },
             mounted () {
-                setTimeout( () => {
-                    const acc = document.querySelectorAll( ".accordion" );
+                setTimeout(() => {
+                    const accordion = document.querySelectorAll( ".accordion" );
                     let i;
-                    for ( i = 0; i < acc.length; i++ ) {
-                        acc[ i ].addEventListener( "click", ( evt ) => {
-                            console.log( evt );
-                            // this.classList.toggle( "active" );
-                            const panel = ( evt.target ).nextElementSibling;
+                    for ( i = 0; i < accordion.length; i++ ) {
+                        accordion[ i ].addEventListener( "click", ( click_event ) => {
+                            const panel = ( click_event.target ).nextElementSibling;
                             if ( panel.style.display === "block" ) {
                                 panel.style.display = "none";
                             } else {
-                                panel.style.display = "block";
-                            }
-                        } );
-                    }
-                }, 500 );
+                                panel.style.display = "block"; }}); }}, 500 );
             }
         } );
         app.mount( '#section_1' );
-        // app.mount( '#section_2')
     </script>
 </body>
 
