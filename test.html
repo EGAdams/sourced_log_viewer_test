@@ -47,10 +47,11 @@
           "imports": {
             "vue":         "https://unpkg.com/vue@3/dist/vue.esm-browser.js",                       // Vue.js
             "log-viewer":  "https://unpkg.com/@egadams/log-viewer@0.0.10/dist/index.js",            // sourced-log-viewer
-            "monitor-led": "https://unpkg.com/@egadams/monitor-led@0.0.2/dist/monitor-led.esm.js"   // monitor-led
+            "monitor-led": "https://unpkg.com/@egadams/monitor-led@0.0.3/dist/monitor-led.esm.js"   // monitor-led
           }
         }
       </script>
+    <keep-alive>
     <div id="section_1">
         <button class="accordion" id="MessageManager_1616_button">Log Vuer</button>
         <div class="panel">
@@ -58,9 +59,12 @@
                 <sourced-log-viewer 
                     data_source_type="url"
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="MessageManager_1616">
+                    object_id="AnonymousIdentity_1646">
                 </sourced-log-viewer>
-                <monitor-led v-bind:monitor_led_data="monitor_led_data"></monitor-led>
+                <monitor-led 
+                    monitored_object_id="AnonymousIdentity_1646" 
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+                </monitor-led>
             </div>
         </div>
 
@@ -70,7 +74,7 @@
                 <sourced-log-viewer 
                     data_source_type="url"
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="MessageManager_1616">
+                    object_id="AnonymousIdentity_1655">
                 </sourced-log-viewer>
             </div>
         </div>
@@ -87,6 +91,7 @@
             </div>
         </div>
     </div>
+    </keep-alive>
     <script type="module">
         import { createApp, reactive } from 'vue';
         import { SourcedLogViewer } from 'log-viewer';
