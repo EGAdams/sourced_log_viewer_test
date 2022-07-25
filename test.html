@@ -47,26 +47,46 @@
           "imports": {
             "vue":         "https://unpkg.com/vue@3/dist/vue.esm-browser.js",                       // Vue.js
             "log-viewer":  "https://unpkg.com/@egadams/log-viewer@0.0.10/dist/index.js",            // sourced-log-viewer
-            "monitor-led": "https://unpkg.com/@egadams/monitor-led@0.0.3/dist/monitor-led.esm.js"   // monitor-led
+            "monitor-led": "https://unpkg.com/@egadams/monitor-led@0.0.8/dist/monitor-led.esm.js"   // monitor-led
           }
         }
       </script>
     <keep-alive>
     <div id="section_1">
-        <button class="accordion" id="MessageManager_1616_button">Log Vuer</button>
+        <button class="accordion" id="accordion-anonymous-identity-1655">Anonymous Identity&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="span-anonymous-identity-1655"></span>
+        </button>
         <div class="panel">
-            <div id="log_div">
+            <div id="log-accordion-anonymous-identity-1655">
                 <sourced-log-viewer 
                     data_source_type="url"
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="AnonymousIdentity_1646">
+                    object_id="AnonymousIdentity_1655">
                 </sourced-log-viewer>
                 <monitor-led 
-                    monitored_object_id="AnonymousIdentity_1646" 
+                    monitored_object_id="AnonymousIdentity_1655" 
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
                 </monitor-led>
             </div>
         </div>
+
+        <button class="accordion" id="accordion-message-manager-1655">Message Manager&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="span-message-manager-1655"></span>
+        </button>
+        <div class="panel">
+            <div id="log-accordion-message-manager-1655">
+                <sourced-log-viewer 
+                    data_source_type="url"
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
+                    object_id="MessageManager_1655">
+                </sourced-log-viewer>
+                <monitor-led 
+                    monitored_object_id="MessageManager_1655" 
+                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
+                </monitor-led>
+            </div>
+        </div>
+
 
         <button class="accordion">Section 2</button>
         <div class="panel">
@@ -85,7 +105,7 @@
                 <sourced-log-viewer 
                     data_source_type="url"
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="MessageManager_1616">
+                    object_id="AnonymousIdentity_1655">
                 </sourced-log-viewer>
                 
             </div>
@@ -119,6 +139,24 @@
             }
         } );
         app.mount( '#section_1' );
+        document.addEventListener( "event-message-manager-1655", function ( event ) {
+            console.log( "led-data event: " + event.detail );
+            let outside_element = document.getElementById( "accordion-message-manager-" + event.detail.ID );
+            if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
+            outside_element.style[ "background-color" ] = event.detail.monitorLedData.classObject.background_color;
+            outside_element = document.getElementById( "span-message-manager-" + event.detail.ID );
+            if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
+            outside_element.innerHTML = event.detail.monitorLedData.ledText;
+        });
+        document.addEventListener( "event-anonymous-identity-1655", function ( event ) {
+            console.log( "led-data event: " + event.detail );
+            let outside_element = document.getElementById( "accordion-anonymous-identity-" + event.detail.ID );
+            if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
+            outside_element.style[ "background-color" ] = event.detail.monitorLedData.classObject.background_color;
+            outside_element = document.getElementById( "span-anonymous-identity-" + event.detail.ID );
+            if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
+            outside_element.innerHTML = event.detail.monitorLedData.ledText;
+        });
     </script>
 </body>
 
