@@ -44,46 +44,38 @@
 <body>
     <script type="importmap">
         {
-          "imports": {
-            "vue":         "https://unpkg.com/vue@3/dist/vue.esm-browser.js",                       // Vue.js
-            "log-viewer":  "https://unpkg.com/@egadams/log-viewer@0.0.10/dist/index.js",            // sourced-log-viewer
-            "monitor-led": "https://unpkg.com/@egadams/monitor-led@0.0.8/dist/monitor-led.esm.js"   // monitor-led
+            "imports": {
+              "vue":              "https://unpkg.com/vue@3/dist/vue.esm-browser.js",                     // Vue.js
+              "monitored-object": "https://unpkg.com/@egadams/monitored-object@0.0.8/dist/index.js",     // monitored-object
+              "monitor-led":      "https://unpkg.com/@egadams/monitor-led@0.0.11/dist/monitor-led.esm.js" // monitor-led
+            }
           }
-        }
       </script>
     <keep-alive>
     <div id="section_1">
-        <button class="accordion" id="accordion-anonymous-identity-1655">Anonymous Identity&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="span-anonymous-identity-1655"></span>
+        <button class="accordion" id="accordion-anonymous-identity-1669"><strong>Anonymous Identity</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="span-anonymous-identity-1669"></span>
         </button>
         <div class="panel">
-            <div id="log-accordion-anonymous-identity-1655">
-                <sourced-log-viewer 
+            <div id="log-accordion-anonymous-identity-1669">
+                <monitored-object 
                     data_source_type="url"
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="AnonymousIdentity_1655">
-                </sourced-log-viewer>
-                <monitor-led 
-                    monitored_object_id="AnonymousIdentity_1655" 
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
-                </monitor-led>
+                    object_id="AnonymousIdentity_1669">
+                </monitored-object>
             </div>
         </div>
 
-        <button class="accordion" id="accordion-message-manager-1655">Message Manager&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="span-message-manager-1655"></span>
+        <button class="accordion" id="accordion-message-manager-1669"><strong>Message Manager</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="span-message-manager-1669"></span>
         </button>
         <div class="panel">
-            <div id="log-accordion-message-manager-1655">
-                <sourced-log-viewer 
+            <div id="log-accordion-message-manager-1669">
+                <monitored-object 
                     data_source_type="url"
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="MessageManager_1655">
-                </sourced-log-viewer>
-                <monitor-led 
-                    monitored_object_id="MessageManager_1655" 
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php">
-                </monitor-led>
+                    object_id="MessageManager_1669">
+                </monitored-object>
             </div>
         </div>
 
@@ -91,34 +83,32 @@
         <button class="accordion">Section 2</button>
         <div class="panel">
             <div id="section_2">
-                <sourced-log-viewer 
+                <monitored-object 
                     data_source_type="url"
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="AnonymousIdentity_1655">
-                </sourced-log-viewer>
+                    object_id="AnonymousIdentity_1669">
+                </monitored-object>
             </div>
         </div>
 
         <button class="accordion">Section 3</button>
         <div class="panel">
             <div id="section_3">
-                <sourced-log-viewer 
+                <monitored-object 
                     data_source_type="url"
                     data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="AnonymousIdentity_1655">
-                </sourced-log-viewer>
-                
+                    object_id="AnonymousIdentity_1669">
+                </monitored-object>
             </div>
         </div>
     </div>
     </keep-alive>
     <script type="module">
         import { createApp, reactive } from 'vue';
-        import { SourcedLogViewer } from 'log-viewer';
-        import MonitorLed from 'monitor-led';
-        import { ServerLedData } from 'monitor-led';
+        import { MonitoredObject     }  from 'monitored-object';
+        import { ServerLedData }       from 'monitor-led';
         const app = createApp( {
-            components: { SourcedLogViewer, MonitorLed },
+            components: { MonitoredObject },
             setup () {
                 const monitor_led_data = reactive( new ServerLedData() );
                 return {
@@ -139,7 +129,7 @@
             }
         } );
         app.mount( '#section_1' );
-        document.addEventListener( "event-message-manager-1655", function ( event ) {
+        document.addEventListener( "event-message-manager-1669", function ( event ) {
             console.log( "led-data event: " + event.detail );
             let outside_element = document.getElementById( "accordion-message-manager-" + event.detail.ID );
             if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
@@ -148,7 +138,7 @@
             if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
             outside_element.innerHTML = event.detail.monitorLedData.ledText;
         });
-        document.addEventListener( "event-anonymous-identity-1655", function ( event ) {
+        document.addEventListener( "event-anonymous-identity-1669", function ( event ) {
             console.log( "led-data event: " + event.detail );
             let outside_element = document.getElementById( "accordion-anonymous-identity-" + event.detail.ID );
             if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
