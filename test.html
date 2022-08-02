@@ -1,153 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>logViewer</title>
-    <style>
-        :host {
-            display: block;
-            border: solid 1px gray;
-            padding: 16px;
-            max-width: 800px;
-        }
-
-        .accordion {
-            background-color: #eee;
-            color: #444;
-            cursor: pointer;
-            padding: 18px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 15px;
-            transition: 0.4s;
-        }
-
-        .active,
-        .accordion:hover {
-            background-color: #ccc;
-        }
-
-        .panel {
-            padding: 0 18px;
-            display: none;
-            background-color: white;
-            overflow: hidden;
-        }
-    </style>
+    <link rel="stylesheet" href="./accordion.css">
 </head>
-
 <body>
     <script type="importmap">
-        {
-            "imports": {
-              "vue":              "https://unpkg.com/vue@3/dist/vue.esm-browser.js",                     // Vue.js
-              "monitored-object": "https://unpkg.com/@egadams/monitored-object@0.0.8/dist/index.js",     // monitored-object
-              "monitor-led":      "https://unpkg.com/@egadams/monitor-led@0.0.11/dist/monitor-led.esm.js" // monitor-led
-            }
-          }
-      </script>
+    {
+        "imports": {
+            "vue":               "https://unpkg.com/vue@3/dist/vue.esm-browser.js",                                 // Vue.js
+            "monitor-led":       "https://unpkg.com/@egadams/monitor-led@0.0.11/dist/monitor-led.esm.js",           // monitor-led
+            "accordion-section": "https://unpkg.com/@egadams/accordion-section@0.0.3/dist/accordion-section.esm.js" // accordion-section
+        } }
+    </script>
     <keep-alive>
     <div id="section_1">
-        <button class="accordion" id="accordion-anonymous-identity-1669"><strong>Anonymous Identity</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="span-anonymous-identity-1669"></span>
-        </button>
-        <div class="panel">
-            <div id="log-accordion-anonymous-identity-1669">
-                <monitored-object 
-                    data_source_type="url"
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="AnonymousIdentity_1669">
-                </monitored-object>
-            </div>
-        </div>
-
-        <button class="accordion" id="accordion-message-manager-1669"><strong>Message Manager</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="span-message-manager-1669"></span>
-        </button>
-        <div class="panel">
-            <div id="log-accordion-message-manager-1669">
-                <monitored-object 
-                    data_source_type="url"
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="MessageManager_1669">
-                </monitored-object>
-            </div>
-        </div>
-
-
-        <button class="accordion">Section 2</button>
-        <div class="panel">
-            <div id="section_2">
-                <monitored-object 
-                    data_source_type="url"
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="AnonymousIdentity_1669">
-                </monitored-object>
-            </div>
-        </div>
-
-        <button class="accordion">Section 3</button>
-        <div class="panel">
-            <div id="section_3">
-                <monitored-object 
-                    data_source_type="url"
-                    data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
-                    object_id="AnonymousIdentity_1669">
-                </monitored-object>
-            </div>
-        </div>
+        <accordion-section 
+            data_source_type="url"
+            data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
+            monitored_object_id="AnonymousIdentity_1669">
+        </accordion-section>
+        
+        <accordion-section 
+            data_source_type="url"
+            data_source_location="http://mycustombusinessapp.com/wp-content/plugins/MCBA-Wordpress/runQuery.php"
+            monitored_object_id="AnonymousIdentity_1655">
+        </accordion-section>
     </div>
     </keep-alive>
     <script type="module">
         import { createApp, reactive } from 'vue';
-        import { MonitoredObject     }  from 'monitored-object';
+        import  AccordionSection       from 'accordion-section';
         import { ServerLedData }       from 'monitor-led';
         const app = createApp( {
-            components: { MonitoredObject },
+            components: { AccordionSection },
             setup () {
                 const monitor_led_data = reactive( new ServerLedData() );
                 return {
                     monitor_led_data
                 }
             },
-            mounted () {
-                setTimeout(() => {
-                    const accordion = document.querySelectorAll( ".accordion" );
-                    let i;
-                    for ( i = 0; i < accordion.length; i++ ) {
-                        accordion[ i ].addEventListener( "click", ( click_event ) => {
-                            const panel = ( click_event.target ).nextElementSibling;
-                            if ( panel.style.display === "block" ) {
-                                panel.style.display = "none";
-                            } else {
-                                panel.style.display = "block"; }}); }}, 500 );
-            }
-        } );
+            mounted () { console.log( "mounted." ); }
+        });
         app.mount( '#section_1' );
-        document.addEventListener( "event-message-manager-1669", function ( event ) {
-            console.log( "led-data event: " + event.detail );
-            let outside_element = document.getElementById( "accordion-message-manager-" + event.detail.ID );
-            if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
-            outside_element.style[ "background-color" ] = event.detail.monitorLedData.classObject.background_color;
-            outside_element = document.getElementById( "span-message-manager-" + event.detail.ID );
-            if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
-            outside_element.innerHTML = event.detail.monitorLedData.ledText;
-        });
-        document.addEventListener( "event-anonymous-identity-1669", function ( event ) {
-            console.log( "led-data event: " + event.detail );
-            let outside_element = document.getElementById( "accordion-anonymous-identity-" + event.detail.ID );
-            if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
-            outside_element.style[ "background-color" ] = event.detail.monitorLedData.classObject.background_color;
-            outside_element = document.getElementById( "span-anonymous-identity-" + event.detail.ID );
-            if ( outside_element.length == 0 ) { throw( Error( "*** ERROR: element not defined! ***" )) }
-            outside_element.innerHTML = event.detail.monitorLedData.ledText;
-        });
     </script>
 </body>
-
 </html>
