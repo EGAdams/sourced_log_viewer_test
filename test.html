@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>logViewer</title>
     <link rel="stylesheet" href="./accordion.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
     <script type="importmap">
@@ -13,7 +14,9 @@
         "imports": {
             "vue":               "https://unpkg.com/vue@3/dist/vue.esm-browser.js",                                 // Vue.js
             "monitor-led":       "https://unpkg.com/@egadams/monitor-led@0.0.11/dist/monitor-led.esm.js",           // monitor-led
-            "accordion-section": "https://unpkg.com/@egadams/accordion-section@0.0.5/dist/accordion-section.esm.js" // accordion-section
+            "accordion-section": "https://unpkg.com/@egadams/accordion-section@0.0.5/dist/accordion-section.esm.js", // accordion-section
+            "log-object-processor": "https://unpkg.com/log-object-processor@1.0.29/build/module/index.js", // log-object-processor
+            "data-source": "https://unpkg.com/log-object-processor@1.0.29/build/module" // data-source
         } }
     </script>
     <keep-alive>
@@ -35,15 +38,19 @@
         import { createApp, reactive } from 'vue';
         import  AccordionSection       from 'accordion-section';
         import { ServerLedData }       from 'monitor-led';
+        import { LogObjectProcessor }   from 'log-object-processor';
+        // import { DataSource }           from 'data-source';
+        const lop = new LogObjectProcessor();
+        // const ds = new DataSource();
         const app = createApp( {
             components: { AccordionSection },
-            setup () {
+            setup() {
                 const monitor_led_data = reactive( new ServerLedData() );
                 return {
                     monitor_led_data
                 }
             },
-            mounted () { console.log( "mounted." ); }
+            mounted() { console.log( "mounted." ); }
         });
         app.mount( '#section_1' );
     </script>
